@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-multiplos',
   templateUrl: './multiplos.component.html',
   styleUrls: ['./multiplos.component.scss'],
 })
-export class MultiplosComponent implements OnInit {
+export class MultiplosComponent {
   /**
    * atributos de la clase
    * number: numero que escribe el usuario
@@ -21,11 +22,9 @@ export class MultiplosComponent implements OnInit {
   public m5m7: any = false;
   public mult: any = false;
 
-  constructor() {
+  constructor(private firestore: AngularFirestore) {
     this.number = '';
   }
-
-  ngOnInit(): void {}
 
   getNumber(e: any) {
     console.log('hola ' + e);
@@ -40,7 +39,7 @@ export class MultiplosComponent implements OnInit {
 
     // en un ciclo se recorre hasta el numero ingresado y se utilizan variables para preguntar por los múltiplos
     for (let i = 0, j = 0, k = 0; j < e; i = i + 3, j = j + 5, k = k + 7) {
-      console.log(i, j, k);
+      //console.log(i, j, k);
       // si el numero es divisible por algún múltiplo de tres se guardan en el array
       if (e % i == 0) {
         this.multiplos3.push(i);
@@ -68,12 +67,25 @@ export class MultiplosComponent implements OnInit {
     if (e === 3 * 5 * 7) {
       this.mult = `${e} [ ${this.multiplos3} y ${this.multiplos5} y ${this.multiplos7} ]`;
     }
+    let multiplosObj = {
+      number: e,
+      multiplos3: this.multiplos3,
+      multiplos5: this.multiplos5,
+      multiplos7: this.multiplos7,
+    };
+    //console.log(multiplosObj);
+
+    this.firestore
+      .collection('multiplos')
+      .add(multiplosObj)
+      .then(() => console.log('Multiplo guardado en la base de datos'))
+      .catch((err) => console.log('Error al guardar el número: ', err));
     /* console.log("m3m5", this.m3m5);
     console.log("m3m7", this.m3m7);
     console.log("m5m7", this.m5m7);
     console.log("mult", this.mult); */
-    console.log('m3', this.multiplos3);
+    /* console.log('m3', this.multiplos3);
     console.log('m5', this.multiplos5);
-    console.log('m7', this.multiplos7);
+    console.log('m7', this.multiplos7); */
   }
 }
