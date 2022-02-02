@@ -1,0 +1,85 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12 mb-2">
+      <!-- formulario para ingresar numero -->
+      <form class="mb-3">
+        <div class="form-group">
+          <label for="number" class="mb-1">Introduce un número para obtener sus múltiplos:</label>
+          <input
+            type="number"
+            [(ngModel)]="number"
+            name="number"
+            (input)="getNumber(number)"
+            class="form-control"
+            id="number"
+            aria-describedby="numberHelp"
+            autofocus
+          />
+        </div>
+      </form>
+      <!-- si no hay numero o no se encuentra ningún múltiplo -->
+      <div *ngIf="number != '' && number != null && number < 5">No hay múltiplos para {{ number }}</div>
+      <div
+        *ngIf="
+          number != null && number > 6 && multiplos3.length === 0 && multiplos5.length === 0 && multiplos7.length === 0
+        "
+      >
+        No se encontraron múltiplos para {{ number }}
+      </div>
+    </div>
+    <!-- lista de los múltiplos -->
+
+    <div class="col-md-4" *ngIf="multiplos3.length > 0">
+      <p>Los múltiplos de 3 son:</p>
+      <ul>
+        <li class="text-success list-unstyled" *ngFor="let mul of multiplos3">
+          {{ mul }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-4" *ngIf="multiplos5.length > 0">
+      <p>Los múltiplos de 5 son:</p>
+      <ul>
+        <li class="text-danger list-unstyled" *ngFor="let mul of multiplos5">
+          {{ mul }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-4" *ngIf="multiplos7.length > 0">
+      <p>Los múltiplos de 7 son:</p>
+      <ul>
+        <li class="text-primary list-unstyled" *ngFor="let mul of multiplos7">
+          {{ mul }}
+        </li>
+      </ul>
+    </div>
+    <!-- listado final de multiplos, ej 21 [3 y 7]-->
+    <section>
+      <div class="col-md-12 text-center text-success" *ngIf="number == 3 * 5 * 7">
+        {{ number }} [ <span *ngFor="let m3 of multiplos3">{{ m3 }} </span> y
+        <span *ngFor="let m5 of multiplos5">{{ m5 }} </span> y <span *ngFor="let m7 of multiplos7">{{ m7 }} </span> ]
+      </div>
+      <div
+        class="col-md-12 text-center text-success"
+        *ngIf="multiplos3.length > 0 && multiplos5.length > 0 && number != 105"
+      >
+        {{ number }} [ <span *ngFor="let m3 of multiplos3">{{ m3 }} </span> y
+        <span *ngFor="let m5 of multiplos5">{{ m5 }} </span> ]
+      </div>
+      <div
+        class="col-md-12 text-center text-success"
+        *ngIf="multiplos3.length > 0 && multiplos7.length > 0 && number != 105"
+      >
+        {{ number }} [ <span *ngFor="let m3 of multiplos3">{{ m3 }} </span> y
+        <span *ngFor="let m7 of multiplos7">{{ m7 }} </span> ]
+      </div>
+      <div
+        class="col-md-12 text-center text-danger"
+        *ngIf="multiplos5.length > 0 && multiplos7.length > 0 && number != 105"
+      >
+        {{ number }} [ <span *ngFor="let m5 of multiplos5">{{ m5 }} </span> y
+        <span *ngFor="let m7 of multiplos7">{{ m7 }} </span> ]
+      </div>
+    </section>
+  </div>
+</div>
