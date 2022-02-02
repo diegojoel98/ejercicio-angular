@@ -10,11 +10,16 @@ export class MultiplosComponent implements OnInit {
    * atributos de la clase
    * number: numero que escribe el usuario
    * multiplos3, multiplos5, multiplos7: arrays donde se guardarán los múltiplos
+   * m3m5, m3m5, m5m7, mult: variables para saber si el numero ingresado tiene más de un múltiplo
    */
   public number: any;
   public multiplos3: number[] = [];
   public multiplos5: number[] = [];
   public multiplos7: number[] = [];
+  public m3m5: any = false;
+  public m3m7: any = false;
+  public m5m7: any = false;
+  public mult: any = false;
 
   constructor() {
     this.number = '';
@@ -24,10 +29,14 @@ export class MultiplosComponent implements OnInit {
 
   getNumber(e: any) {
     console.log('hola ' + e);
-    // se inicializan de nuevo los arreglos
+    // se inicializan de nuevo los arreglos y las variables de validación de más de un múltiplo
     this.multiplos3 = [];
     this.multiplos5 = [];
     this.multiplos7 = [];
+    this.m3m5 = false;
+    this.m3m7 = false;
+    this.m5m7 = false;
+    this.mult = false;
 
     // en un ciclo se recorre hasta el numero ingresado y se utilizan variables para preguntar por los múltiplos
     for (let i = 0, j = 0, k = 0; j < e; i = i + 3, j = j + 5, k = k + 7) {
@@ -45,6 +54,24 @@ export class MultiplosComponent implements OnInit {
         this.multiplos7.push(k);
       }
     }
+
+    // se valida si el numero tiene más de un múltiplo
+    if (this.multiplos3.length > 0 && this.multiplos5.length > 0 && e != 105) {
+      this.m3m5 = `${e} [ ${this.multiplos3} y ${this.multiplos5} ]`;
+    }
+    if (this.multiplos3.length > 0 && this.multiplos7.length > 0 && e != 105) {
+      this.m3m7 = `${e} [ ${this.multiplos3} y ${this.multiplos7} ]`;
+    }
+    if (this.multiplos5.length > 0 && this.multiplos7.length > 0 && e != 105) {
+      this.m5m7 = `${e} [ ${this.multiplos5} y ${this.multiplos7} ]`;
+    }
+    if (e === 3 * 5 * 7) {
+      this.mult = `${e} [ ${this.multiplos3} y ${this.multiplos5} y ${this.multiplos7} ]`;
+    }
+    /* console.log("m3m5", this.m3m5);
+    console.log("m3m7", this.m3m7);
+    console.log("m5m7", this.m5m7);
+    console.log("mult", this.mult); */
     console.log('m3', this.multiplos3);
     console.log('m5', this.multiplos5);
     console.log('m7', this.multiplos7);
